@@ -190,7 +190,7 @@ class ApplicationController < ActionController::Base
     if instructeur_signed_in? &&
         sensitive_path &&
         !feature_enabled?(:instructeur_bypass_email_login_token) &&
-        !IPService.ip_trusted?(request.headers['X-Forwarded-For']) &&
+        !IpService.ip_trusted?(request.headers['X-Forwarded-For']) &&
         !trusted_device?
 
       # return at this location
