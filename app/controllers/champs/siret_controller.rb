@@ -16,7 +16,7 @@ class Champs::SiretController < ApplicationController
 
     begin
       etablissement = find_etablissement_with_siret
-    rescue ApiEntreprise::API::Error::RequestFailed, ApiEntreprise::API::Error::ServiceUnavailable
+    rescue APIEntreprise::API::Error::RequestFailed, APIEntreprise::API::Error::ServiceUnavailable
       return siret_error(:network_error)
     end
     if etablissement.nil?
@@ -50,7 +50,7 @@ class Champs::SiretController < ApplicationController
   end
 
   def find_etablissement_with_siret
-    ApiEntrepriseService.create_etablissement(@champ, @siret, current_user.id)
+    APIEntrepriseService.create_etablissement(@champ, @siret, current_user.id)
   end
 
   def clear_siret_and_etablissement
