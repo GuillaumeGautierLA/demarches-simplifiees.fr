@@ -1,4 +1,4 @@
-class Api::V2::Schema < GraphQL::Schema
+class API::V2::Schema < GraphQL::Schema
   default_max_page_size 100
   max_complexity 300
   max_depth 15
