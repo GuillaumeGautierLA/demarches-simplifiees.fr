@@ -104,13 +104,13 @@ function ComboMultipleDropdownList({ options, hiddenFieldId, selected }) {
         <ComboboxPopover>
           {results.length === 0 && (
             <p>
-              No Results{' '}
+              Aucun résultat{' '}
               <button
                 onClick={() => {
                   setTerm('');
                 }}
               >
-                clear
+                Effacer
               </button>
             </p>
           )}
