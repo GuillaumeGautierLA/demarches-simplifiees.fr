@@ -501,6 +501,20 @@
   }
 }
 
+[data-react-class="ComboMultipleDropdownList"] {
+  margin-bottom: $default-fields-spacer;
+}
+
+[data-combobox-token-label="true"] {
+  border: '10px solid #888';
+  display: 'flex';
+  flex-wrap: 'wrap'
+}
+
+[data-combobox-token-label="true"]:focus {
+  border-color: $light-blue;
+}
+
 [data-reach-combobox-option] {
   font-size: 16px;
 }

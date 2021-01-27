@@ -67,14 +67,12 @@ function ComboMultipleDropdownList({ options, hiddenFieldId, selected }) {
     <Combobox
       openOnFocus={true}
       onSelect={onSelect}
-      aria-label="choose an option"
+      aria-label="choisir une option"
     >
       <ComboboxTokenLabel
         onRemove={onRemove}
         style={{
-          border: '1px solid #888',
-          display: 'flex',
-          flexWrap: 'wrap'
+          border: "10px solid #888"
         }}
       >
         <ul
@@ -145,7 +143,7 @@ function ComboboxTokenLabel({ onRemove, ...props }) {
 
   return (
     <Context.Provider value={context}>
-      <div {...props} />
+      <div data-combobox-token-label {...props} />
     </Context.Provider>
   );
 }
