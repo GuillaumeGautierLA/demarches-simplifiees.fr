@@ -81,7 +81,7 @@ module NewAdministrateur
 
     def add_instructeur
       emails = params['emails'].presence || []
-      emails = emails.map(&:strip).map(&:downcase)
+      emails = JSON.parse(emails).map(&:strip).map(&:downcase)
 
       correct_emails, bad_emails = emails
         .partition { |email| URI::MailTo::EMAIL_REGEXP.match?(email) }
