@@ -532,4 +532,32 @@ describe NewAdministrateur::ProceduresController, type: :controller do
       it { expect(procedure.allow_expert_review).to be_truthy }
     end
   end
+
+  describe 'POST #toggle_allow_decision_access' do
+    let!(:procedure) { create :procedure, :with_service, administrateur: admin }
+    let(:expert) { create(:expert) }
+    let(:expert_procedure) { ExpertsProcedure.create(procedure: procedure, expert: expert) }
+
+    subject do
+      post :toggle_allow_decision_access, params: { procedure_id: procedure.id, expert_procedure: expert_procedure }, format: :js
+      expert_procedure.reload
+    end
+
+    context 'when the experts_procedure is false' do
+      before do
+        subject
+      end
+
+      it { expect(expert_procedure.allow_decision_access).to be_truthy }
+    end
+
+    context 'when the experts_procedure is true' do
+      let(:expert_procedure) { ExpertsProcedure.create(procedure: procedure, expert: expert, allow_decision_access: true) }
+
+      before do
+        subject
+      end
+      it { expect(expert_procedure.allow_decision_access).to be_falsy }
+    end
+  end
 end
