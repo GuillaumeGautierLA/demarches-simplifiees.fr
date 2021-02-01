@@ -11,21 +11,18 @@ class FranceConnect::ParticulierController < ApplicationController
 
   def callback
     fetched_fci = FranceConnectService.retrieve_user_informations_particulier(params[:code])
+    fci = FranceConnectInformation.find_by(france_connect_particulier_id: fetched_fci[:france_connect_particulier_id]) || fetched_fci
+    user = fci.user || User.find_by(email: fci.email_france_connect.downcase)
 
-    fci = FranceConnectInformation
-      .find_by(france_connect_particulier_id: fetched_fci[:france_connect_particulier_id]) ||
-        fetched_fci.tap(&:save)
-
-    if fci.user.nil?
-      user = User.find_or_create_by!(email: fci.email_france_connect.downcase) do |new_user|
-        new_user.password = Devise.friendly_token[0, 20]
-        new_user.confirmed_at = Time.zone.now
-      end
-
-      fci.update_attribute('user_id', user.id)
+    if user && !user.can_france_connect?
+      fci.destroy if fci.persisted?
+      redirect_to new_user_session_path, alert: t('errors.messages.france_connect.forbidden_html', reset_link: new_user_password_path)
+      return
     end
 
+    fci.associate_user!
     connect_france_connect_particulier(fci.user)
+
   rescue Rack::OAuth2::Client::Error => e
     Rails.logger.error e.message
     redirect_france_connect_error_connection
