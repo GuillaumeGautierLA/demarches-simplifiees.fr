@@ -190,12 +190,10 @@ module NewAdministrateur
     end
 
     def toggle_allow_decision_access
-      if @procedure.administrateurs.include?(current_administrateur)
-        @procedure
-          .experts_procedures
-          .find(params[:expert_procedure])
-          .toggle!(:allow_decision_access)
-      end
+      @procedure
+        .experts_procedures
+        .find(params[:expert_procedure])
+        .toggle!(:allow_decision_access)
     end
 
     private
